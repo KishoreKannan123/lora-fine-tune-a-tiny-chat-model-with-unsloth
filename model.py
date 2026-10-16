@@ -28,8 +28,17 @@ def count_total_parameters(model):
     """Return the total number of parameters in `model` as a Python int."""
     return sum(param.numel() for param in model.parameters())
 
-# Step 3 - is_model_4bit_quantized (not yet solved)
-# TODO: implement
+# Step 3 - is_model_4bit_quantized
+import bitsandbytes
+
+def is_model_4bit_quantized(model):
+    """Return True if any submodule of `model` is a bitsandbytes 4-bit linear layer."""
+    # TODO: walk the model's submodules and check for a bitsandbytes Linear4bit instance
+    for module in model.modules():
+        if isinstance(module, bitsandbytes.nn.Linear4bit):
+            return True
+            
+    return False
 
 # Step 4 - ensure_pad_token (not yet solved)
 # TODO: implement
