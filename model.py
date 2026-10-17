@@ -86,8 +86,24 @@ def trainable_fraction(trainable_count, total_count):
     # TODO: return the fraction of parameters that are trainable.
     return trainable_count/total_count
 
-# Step 9 - build_instruction_examples (not yet solved)
-# TODO: implement
+# Step 9 - build_instruction_examples
+def build_instruction_examples():
+    """Return a small list of {'instruction', 'response'} dicts for SFT."""
+    # TODO: return a tiny hand-written list of instruction/response example dicts.
+    data = [{
+        'instruction':'Who is Batman?',
+        'response':'Batman is a superhero'
+    },
+    {
+        'instruction':'Tell me about a car',
+        'response':'A car is a vehicle with 4 wheels'
+    },
+    {
+        'instruction':'what is 5 + 6',
+        'response':'11'
+    }]
+
+    return data
 
 # Step 10 - format_instruction_example (not yet solved)
 # TODO: implement
