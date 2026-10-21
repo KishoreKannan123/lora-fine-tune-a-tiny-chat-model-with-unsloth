@@ -164,11 +164,12 @@ def build_training_arguments(output_dir='./sft_out', max_steps=5, learning_rate=
     return training_args
 
 # Step 16 - build_sft_trainer
-from trl import SFTTrainer
+# from trl import SFTTrainer
 
 def build_sft_trainer(model, tokenizer, dataset, training_args, max_seq_length=256):
     """Construct a trl SFTTrainer over dataset['text'] ready to .train()."""
-    trainer = SFTTrainer(
+    import trl
+    trainer = trl.SFTTrainer(
         model=model,
         train_dataset=dataset,
         dataset_text_field="text",
@@ -178,8 +179,11 @@ def build_sft_trainer(model, tokenizer, dataset, training_args, max_seq_length=2
     )
     return trainer
 
-# Step 17 - run_sft_training (not yet solved)
-# TODO: implement
+# Step 17 - run_sft_training
+def run_sft_training(trainer):
+    """Run a few SFT steps and return the final training loss as a float."""
+    train_result = trainer.train()
+    return float(train_result.training_loss)
 
 # Step 18 - switch_to_inference_mode (not yet solved)
 # TODO: implement
