@@ -144,22 +144,28 @@ def count_tokens(input_ids):
 # Step 15 - build_training_arguments
 from transformers import TrainingArguments
 import torch
-def build_training_arguments(output_dir='./sft_out', max_steps=5, learning_rate=2e-4):
-    """Return featherweight TrainingArguments for the SFT run."""
-    # TODO: build TrainingArguments with batch size 1, given max_steps, given lr, bf16 or fp16.
+
+def build_training_arguments(
+    output_dir="./sft_out",
+    max_steps=5,
+    learning_rate=2e-4
+):
     bf16 = torch.cuda.is_bf16_supported()
-    fp16 = not bf16
+    fp16 = torch.cuda.is_available() and not bf16
+
     training_args = TrainingArguments(
         output_dir=output_dir,
-        max_steps = max_steps,
+        max_steps=max_steps,
         per_device_train_batch_size=1,
-        learning_rate = learning_rate,
-        gradient_accumulation_steps = 1,
-        bf16 = bf16,
-        fp16 = fp16,
-        logging_steps = 1,
-        optim = 'adamw_8bit'
-    )   
+        learning_rate=learning_rate,
+        gradient_accumulation_steps=1,
+        bf16=bf16,
+        fp16=fp16,
+        logging_steps=1,
+        optim="adamw_8bit",
+        save_strategy="no",
+        report_to="none",
+    )
 
     return training_args
 
@@ -174,6 +180,7 @@ def build_sft_trainer(model, tokenizer, dataset, training_args, max_seq_length=2
         train_dataset=dataset,
         dataset_text_field="text",
         tokenizer=tokenizer,
+        save_strategy="no",
         args=training_args,
         max_seq_length=max_seq_length,
     )
